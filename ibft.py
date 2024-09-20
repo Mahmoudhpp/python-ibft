@@ -17,7 +17,7 @@ def ibft_leader(l, r):
 
 def ibft_send_message(url, msg):
     try:
-        requests.post(url, json=msg)
+        requests.post(url, json=msg, timeout=60)
     except:
         pass
 
