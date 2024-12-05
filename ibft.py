@@ -4,9 +4,10 @@ from collections import defaultdict
 import sys, os
 import _thread, threading
 from queue import Queue
-import random
 import time
 import argparse
+import secrets
+
 if __name__ == '__main__':
     from bls_threshold import py_ecc_bls, reconstruct, get_aggregate_key
 else:
@@ -31,7 +32,7 @@ def ibft_send_messages(msg, endpoint="message", justification=None, destination_
         if destination_party == None or destination_party == i:
             if __name__ == '__main__' and args.random_values and "value" in msg:
                 msg_copy = msg.copy()
-                msg_copy["value"] = str(random.randint(0, 10))
+                msg_copy["value"] = str(secrets.SystemRandom().randint(0, 10))
                 wrapped_message_copy = wrapped_message.copy()
                 wrapped_message_copy["message"] = msg_copy
                 signature = py_ecc_bls.Sign(ibft_privkey, bytes(json.dumps(msg_copy), encoding="utf=8"))
