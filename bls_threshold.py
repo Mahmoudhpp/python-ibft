@@ -7,7 +7,7 @@ from py_ecc.bls.g2_primatives import (
     pubkey_to_G1,
 )
 from py_ecc.utils import prime_field_inv
-import random
+import secrets
 
 def eval_poly(x, coefs):
     r = 0
@@ -18,7 +18,7 @@ def eval_poly(x, coefs):
     return r
 
 def generate_keys(n_parties, t):
-    coefs = [random.randint(0, b.curve_order - 1) for i in range(t + 1)]
+    coefs = [secrets.SystemRandom().randint(0, b.curve_order - 1) for i in range(t + 1)]
     aggregate_public = G1_to_pubkey(b.multiply(b.G1, coefs[0]))
     private = [eval_poly(x, coefs) for x in range(1, n_parties + 1)]
     public = [G1_to_pubkey(b.multiply(b.G1, x)) for x in private]
